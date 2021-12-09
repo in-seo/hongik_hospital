@@ -28,5 +28,8 @@
 
 ![2](https://user-images.githubusercontent.com/94730032/145141657-3ba08752-0116-430a-a032-346257863be1.png)
 
+
+![q](https://user-images.githubusercontent.com/94730032/145337597-d73b4965-d568-4ed0-ac07-78f9f6fe4696.png)
+>프로젝션- 여러 값 조회로 원하는 값만 가져올 수 있습니다. 후에 웹으로 뿌려주면 될 듯 합니다..
 ---
 아직 복학전 1학년인관계로 DB공부 스타트. ~12/31

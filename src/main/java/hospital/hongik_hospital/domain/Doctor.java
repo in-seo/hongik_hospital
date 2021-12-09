@@ -57,6 +57,6 @@ public class Doctor {
                 ", doctorname='" + doctorname + '\'' +
                 ", phonenumber='" + phonenumber + '\'' +
                 ", career=" + career +
-                '}'+'\n';
+                '}';
     }
 }

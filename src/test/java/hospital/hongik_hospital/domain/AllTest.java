@@ -20,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceUnit;
 import java.util.List;
 
@@ -73,6 +72,8 @@ public class AllTest {
         Patient Nayeon = new Patient("이나연",43, Patient.Gender.Female); patientRepository.save(Nayeon);
         Long aLong2 = reserveService.Reserve(Nayeon.getId(), Taemin.getId());
         hospitalService.create(reserveRepository.getOne(aLong2),Taemin);
+        reserveService.cancel(aLong2);
+
 
         Doctor Habin = new Doctor("강하빈", "010-1231-6231", 17, null); doctorRepository.save(Habin);
         doctorService.MakeDocter(Habin.getId(), departmentRepository.findById(1L));
@@ -105,9 +106,11 @@ public class AllTest {
     @Rollback(value = false)
     public void 진료과_의사정보출력() {
         EntityManager em = factory.createEntityManager();
-        List result = em.createQuery("select distinct d from Department d join d.doctorList")
-                .getResultList();
-        System.out.println("result = " + result);
+        List<Department> result = em.createQuery("select distinct d from Department d join fetch d.doctorList",Department.class)
+                .getResultList();  //과에서 의사정보빼오기
+        for (Department department : result) {
+            System.out.println(department.getDepartname()+"  의사명단: " + department.getDoctorList());
+        }
     }
 
 
@@ -118,10 +121,12 @@ public class AllTest {
         EntityManager em = factory.createEntityManager();
         List<Object[]> resultList = em.createQuery("select p.username, r.doctor.doctorname from Patient p join p.reserveList r")
                 .getResultList();
-        Object[] result = resultList.get(0);
-        for (Object o : result) {
-            System.out.println("result[0]+result[1] = " + result[0] + result[1]);
+        for(int i=0; i<resultList.size(); i++){
+            Object[] p = resultList.get(i);
+            System.out.print("환자명 = " + p[0]);
+            System.out.println("   의사명 = " + p[1]);
         }
+
 
 
     }

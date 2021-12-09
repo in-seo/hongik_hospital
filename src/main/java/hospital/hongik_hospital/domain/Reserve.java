@@ -51,9 +51,10 @@ public class Reserve {
         doctor.getReserveList().add(this);
     }
 
-    public void cancel(Reserve reserve) {
-        reserve.setReserveStatus(ReserveStatus.CANCEL);
-        reserve.reserveTime = null;
+    public void cancel() {
+        this.setReserveStatus(ReserveStatus.CANCEL);
+        this.reserveTime = null;
+        patient.getReserveList().remove(this);
     }
 
 

@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class ReserveService {
@@ -23,5 +25,11 @@ public class ReserveService {
         Doctor doctor = doctorRepository.findById(Doctorid);
         Reserve saved = reserveRepository.save(Reserve.createReserve(patient, doctor));
         return saved.getId();
+    }
+
+    public void cancel(Long reserveId){
+        Optional<Reserve> reserve = reserveRepository.findById(reserveId);
+        reserve.get().cancel();
+        System.out.println("캔슬완료!");
     }
 }

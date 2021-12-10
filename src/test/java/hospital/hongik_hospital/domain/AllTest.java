@@ -49,6 +49,9 @@ public class AllTest {
         Hospital hospital3 = new Hospital("신경외과의원", new Address("Seoul", "Sinchon", "hong"));
         Department department3 = new Department("신경외과",hospital3);
         departmentRepository.save(department3);
+
+
+
     }
 
     @Test
@@ -59,19 +62,19 @@ public class AllTest {
         doctorService.MakeDocter(seongwook.getId(), departmentRepository.findById(1L)); //이름으로 검색해보기
         Patient inseo = new Patient("송인서",22, Patient.Gender.Male); patientRepository.save(inseo);
         Long aLong = reserveService.Reserve(inseo.getId(), seongwook.getId());
-        hospitalService.create(reserveRepository.getOne(aLong),seongwook);
+        hospitalService.create(reserveRepository.findById(aLong),seongwook);
 
         Doctor hyunwoo = new Doctor("송현우", "010-2235-2121", 8, null); doctorRepository.save(hyunwoo);
         doctorService.MakeDocter(hyunwoo.getId(), departmentRepository.findById(3L));
         Patient hoyeon = new Patient("이호연",18, Patient.Gender.Female); patientRepository.save(hoyeon);
         Long aLong1 = reserveService.Reserve(hoyeon.getId(), hyunwoo.getId());
-        hospitalService.create(reserveRepository.getOne(aLong1),hyunwoo);
+        hospitalService.create(reserveRepository.findById(aLong1),hyunwoo);
 
         Doctor Taemin = new Doctor("김태민", "010-7444-3236", 11, null); doctorRepository.save(Taemin);
         doctorService.MakeDocter(Taemin.getId(), departmentRepository.findById(5L));
         Patient Nayeon = new Patient("이나연",43, Patient.Gender.Female); patientRepository.save(Nayeon);
         Long aLong2 = reserveService.Reserve(Nayeon.getId(), Taemin.getId());
-        hospitalService.create(reserveRepository.getOne(aLong2),Taemin);
+        hospitalService.create(reserveRepository.findById(aLong2),Taemin);
         reserveService.cancel(aLong2);
 
 
@@ -79,22 +82,22 @@ public class AllTest {
         doctorService.MakeDocter(Habin.getId(), departmentRepository.findById(1L));
         Patient Mingi = new Patient("서민기",33, Patient.Gender.Male); patientRepository.save(Mingi);
         Long aLong3 = reserveService.Reserve(Mingi.getId(), Habin.getId());
-        hospitalService.create(reserveRepository.getOne(aLong3),Habin);
+        hospitalService.create(reserveRepository.findById(aLong3),Habin);
 
         Doctor seoungchan = new Doctor("김승찬", "031-433-1221", 6, null); doctorRepository.save(seoungchan);
         doctorService.MakeDocter(seoungchan.getId(), departmentRepository.findById(1L));
         Patient seadg = new Patient("홍석천",33, Patient.Gender.Male); patientRepository.save(seadg);
         Long aLong4 = reserveService.Reserve(seadg.getId(), seoungchan.getId());
-        hospitalService.create(reserveRepository.getOne(aLong4),seoungchan);
+        hospitalService.create(reserveRepository.findById(aLong4),seoungchan);
 
         Doctor agj = new Doctor("조민", "031-433-1221", 6, null); doctorRepository.save(agj);
         doctorService.MakeDocter(agj.getId(), departmentRepository.findById(3L));
         Patient alkga = new Patient("김준환",33, Patient.Gender.Male); patientRepository.save(alkga);
         Long dd = reserveService.Reserve(alkga.getId(), agj.getId());
-        hospitalService.create(reserveRepository.getOne(dd),agj);
+        hospitalService.create(reserveRepository.findById(dd),agj);
 
         Long song = reserveService.Reserve(patientRepository.findById(8L).getId(), agj.getId());
-        hospitalService.create(reserveRepository.getOne(song),agj);
+        hospitalService.create(reserveRepository.findById(song),agj);
     }
 
 
@@ -121,8 +124,7 @@ public class AllTest {
         EntityManager em = factory.createEntityManager();
         List<Object[]> resultList = em.createQuery("select p.username, r.doctor.doctorname from Patient p join p.reserveList r")
                 .getResultList();
-        for(int i=0; i<resultList.size(); i++){
-            Object[] p = resultList.get(i);
+        for (Object[] p : resultList) {
             System.out.print("환자명 = " + p[0]);
             System.out.println("   의사명 = " + p[1]);
         }

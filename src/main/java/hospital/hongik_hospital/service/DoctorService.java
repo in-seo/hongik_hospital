@@ -18,7 +18,7 @@ public class DoctorService {
     private final DepartmentRepository departmentRepository;
 
     @Transactional
-    public Doctor MakeDocter(Long doctorid,Department department){
+    public Doctor MakeDocter(Long doctorid,Department department){ //생성되어있는 의사와 진료과 결합
         Doctor doctor = doctorRepository.findById(doctorid);
         doctor.setDepartment(department);
         department.getDoctorList().add(doctor);

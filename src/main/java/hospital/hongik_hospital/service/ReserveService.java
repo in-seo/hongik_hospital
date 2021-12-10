@@ -23,13 +23,12 @@ public class ReserveService {
     public Long Reserve(Long Patientid, Long Doctorid){
         Patient patient = patientRepository.findById(Patientid);
         Doctor doctor = doctorRepository.findById(Doctorid);
-        Reserve saved = reserveRepository.save(Reserve.createReserve(patient, doctor));
-        return saved.getId();
+        return reserveRepository.save(Reserve.createReserve(patient, doctor));
     }
 
     public void cancel(Long reserveId){
-        Optional<Reserve> reserve = reserveRepository.findById(reserveId);
-        reserve.get().cancel();
+        Reserve reserve = reserveRepository.findById(reserveId);
+        reserve.cancel();
         System.out.println("캔슬완료!");
     }
 }

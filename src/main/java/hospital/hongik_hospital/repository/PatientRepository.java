@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.List;
 
 
 @Repository
@@ -21,4 +22,11 @@ public class PatientRepository {
     public Patient findById(Long id) {
         return em.find(Patient.class, id);
     }
+
+    public List<Patient> findByName(String name){
+        return em.createQuery("select p from Patient p where p.username=:name")
+                .setParameter("name",name)
+                .getResultList();
+    }
+
 }

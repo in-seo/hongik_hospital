@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceUnit;
 import java.util.List;
 
@@ -34,6 +35,9 @@ public class AllTest {
     @Autowired DoctorRepository doctorRepository;
     @Autowired DoctorService doctorService;
     @Autowired DepartmentRepository departmentRepository;
+
+    @PersistenceContext
+    EntityManager em;
 
 
     @Test
@@ -101,14 +105,13 @@ public class AllTest {
     }
 
 
-    @PersistenceUnit
-    public EntityManagerFactory factory;
+//    @PersistenceUnit
+//    public EntityManagerFactory factory;
 
     @Test
     @Transactional
     @Rollback(value = false)
     public void 진료과_의사정보출력() {
-        EntityManager em = factory.createEntityManager();
         List<Department> result = em.createQuery("select distinct d from Department d join fetch d.doctorList",Department.class)
                 .getResultList();  //과에서 의사정보빼오기
         for (Department department : result) {
@@ -121,7 +124,6 @@ public class AllTest {
     @Transactional
     @Rollback(value = false)
     public void 환자_예약정보출력() {
-        EntityManager em = factory.createEntityManager();
         List<Object[]> resultList = em.createQuery("select p.username, r.doctor.doctorname from Patient p join p.reserveList r")
                 .getResultList();
         for (Object[] p : resultList) {
@@ -132,7 +134,25 @@ public class AllTest {
 
 
     }
+    @Test
+    @Transactional
+    @Rollback(value = false)
+    public void 환자_의사이름기반검색() {
+        List<Patient> patientList = patientRepository.findByName("송인서");
+        List<Doctor> doctorList = doctorRepository.findByName("유성욱");
 
+        for (Patient patient : patientList) {
+            List<Reserve> reserveList = patient.getReserveList();
+            for (Reserve reserve : reserveList) {
+                System.out.println(reserve.toString());
+            }
+        }
+        for (Doctor doctor : doctorList) {
+            System.out.println(doctor.getReserveList().toString());
+        }  //이름기반 찾기 가능..
+
+
+    }
 
 
 

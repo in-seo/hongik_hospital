@@ -57,5 +57,14 @@ public class Reserve {
         patient.getReserveList().remove(this);
     }
 
-
+    @Override
+    public String toString() {
+        return "Reserve{" +
+                "id=" + id +
+                ", patient=" + patient +
+                ", doctor=" + doctor +
+                ", reserveStatus=" + reserveStatus +
+                ", reserveTime=" + reserveTime +
+                '}';
+    }
 }
